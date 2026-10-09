@@ -50,6 +50,6 @@ export function Chapter({number,label}:{number:number;label:string}) {return <di
 export function TypedGreeting({text}:{text:string}) {
   const [length,setLength]=useState(0);
   useEffect(()=>{const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;if(reduced){setLength(text.length);return;}let index=0;const timer=setInterval(()=>{index++;setLength(index);if(index>=text.length)clearInterval(timer);},65);return()=>clearInterval(timer);},[text]);
-  return <h1 aria-label={text}><span aria-hidden="true">{text.slice(0,length)}<span className="typing-cursor">|</span></span></h1>;
+  return <h1 className="typed-greeting" aria-label={text}><span className="greeting-spacer" aria-hidden="true">{text}</span><span className="greeting-typed" aria-hidden="true">{text.slice(0,length)}<span className="typing-cursor">|</span></span></h1>;
 }
 export function Footer({step}:{step:number}) {return <footer className="love-footer"><div className="progress-dots" aria-label={`Chapter ${step} of 8`}>{Array.from({length:8},(_,i)=><span key={i} className={`progress-dot ${i===step-1?'active':''}`}/>)}</div><div className="footer-copy">A little surprise. A whole lot of love. <Heart/></div></footer>;}

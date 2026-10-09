@@ -12,19 +12,21 @@ export function BirthdayCake({onCelebration,onDone}:{onCelebration:()=>void;onDo
   const frame=useRef(0);
   const mounted=useRef(true);
   const blownRef=useRef(false);
+  const requesting=useRef(false);
+  const pressTimer=useRef<ReturnType<typeof setTimeout>|null>(null);
   const finish=useRef(onDone);finish.current=onDone;
   const celebration=useRef(onCelebration);celebration.current=onCelebration;
   const stopMic=()=>{cancelAnimationFrame(frame.current);stream.current?.getTracks().forEach(t=>t.stop());stream.current=null;void context.current?.close();context.current=null;};
   useEffect(()=>{
     mounted.current=true;const timers=countdownValues.slice(1).map((value,i)=>setTimeout(()=>setCount(value),(i+1)*1000));
-    return ()=>{mounted.current=false;timers.forEach(clearTimeout);stopMic();};
+    return ()=>{mounted.current=false;timers.forEach(clearTimeout);if(pressTimer.current)clearTimeout(pressTimer.current);stopMic();};
   },[]);
   useEffect(()=>{if(!blown)return;const timer=setTimeout(()=>finish.current(),3400);return()=>clearTimeout(timer);},[blown]);
   const blow=()=>{if(blownRef.current || count>0)return;blownRef.current=true;setBlown(true);stopMic();setListening(false);celebration.current();};
   const startMic=async()=>{
-    if(listening || blown || count>0)return;
+    if(listening || requesting.current || blown || count>0)return;
     if(!navigator.mediaDevices?.getUserMedia){setMicNote('Microphone isn’t available here. The BLOW button is ready for you! 💗');return;}
-    setMicNote('Allow the microphone, then blow gently towards your phone.');
+    requesting.current=true;setMicNote('Allow the microphone, then blow gently towards your phone.');
     try {
       const input=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});
       if(!mounted.current || blownRef.current){input.getTracks().forEach(t=>t.stop());return;}
@@ -35,6 +37,7 @@ export function BirthdayCake({onCelebration,onDone}:{onCelebration:()=>void;onDo
       const detect=(now:number)=>{if(!mounted.current || blownRef.current)return;analyser.getByteTimeDomainData(samples);let sum=0;samples.forEach(v=>{sum+=((v-128)/128)**2;});const rms=Math.sqrt(sum/samples.length);sustained=rms>.09?sustained+Math.min(now-previous,100):Math.max(0,sustained-30);previous=now;if(sustained>450){blow();return;}frame.current=requestAnimationFrame(detect);};
       frame.current=requestAnimationFrame(detect);
     } catch {stopMic();setListening(false);if(mounted.current)setMicNote('That’s okay, my love! Tap BLOW to make your wish come true. 💗');}
+    finally {requesting.current=false;}
   };
   return <><div className={`cake-art ${blown?'extinguished':''}`} aria-label={blown?'Birthday cake with extinguished candles':'Pink birthday cake with five burning candles'} role="img"><svg viewBox="0 0 340 300">
     <ellipse cx="170" cy="276" rx="143" ry="15" className="cake-shadow"/><ellipse cx="170" cy="270" rx="135" ry="14" className="cake-light"/><ellipse cx="170" cy="265" rx="127" ry="13" className="cake-white"/>
@@ -49,6 +52,6 @@ export function BirthdayCake({onCelebration,onDone}:{onCelebration:()=>void;onDo
     </g>)}
     <text x="170" y="171" fontSize="18" textAnchor="middle" className="cake-deep">♡</text>
   </svg></div>
-  {blown?<><h1>YAYYYYY! HAPPY BIRTHDAY,<br/>MY HABIBI! 🎉💗</h1><p className="copy">May every wish in your heart come true, Sukliiii! 🥹</p></>:<><h1>It’s your special day, Sukliiii! 🎂💗</h1><p className="copy">Make a wish, my love… ✨</p><div className="countdown" key={count} aria-live="polite">{count>0?`${count}…`:<span className="font-hand text-3xl">Now blow the candles, babyyyy! 🥺🕯️</span>}</div><div className="actions"><Button variant="love" disabled={count>0} onClick={blow}><Wind/> BLOW 💨</Button><Button variant="quiet" disabled={count>0 || listening} onClick={startMic}><Mic/> {listening?'LISTENING…':'USE MICROPHONE'}</Button></div><p className="mic-note" aria-live="polite">{micNote}</p></>}
+  {blown?<><h1>YAYYYYY! HAPPY BIRTHDAY,<br/>MY HABIBI! 🎉💗</h1><p className="copy">May every wish in your heart come true, Sukliiii! 🥹</p></>:<><h1>It’s your special day, Sukliiii! 🎂💗</h1><p className="copy">Make a wish, my love… ✨</p><div className="countdown" key={count} aria-live="polite">{count>0?`${count}…`:<span className="font-hand text-3xl">Now blow the candles, babyyyy! 🥺🕯️</span>}</div><div className="actions"><Button variant="love" disabled={count>0} onClick={blow} onPointerDown={()=>{if(count===0)pressTimer.current=setTimeout(blow,500);}} onPointerUp={()=>{if(pressTimer.current)clearTimeout(pressTimer.current);}} onPointerCancel={()=>{if(pressTimer.current)clearTimeout(pressTimer.current);}}><Wind/> BLOW 💨</Button><Button variant="quiet" disabled={count>0 || listening} onClick={startMic}><Mic/> {listening?'LISTENING…':'USE MICROPHONE'}</Button></div><p className="mic-note" aria-live="polite">{micNote}</p></>}
   </>;
 }

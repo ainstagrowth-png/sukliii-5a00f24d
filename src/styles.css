@@ -211,5 +211,13 @@ button:focus-visible, [role=button]:focus-visible { outline: 2px solid var(--lig
 @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; } .ambient-heart { display:none; } .ambient-star { opacity:.25; } }
 
 .typing-cursor { color:var(--romantic-pink); animation:twinkle 900ms 5 both; font-weight:400; }
+.typed-greeting { position:relative; }
+.greeting-spacer { visibility:hidden; }
+.greeting-typed { position:absolute; inset:0; }
+.chapter { flex-wrap:nowrap; flex-shrink:0; }
+.chapter::before,.chapter::after { flex-shrink:0; }
+.letter-paper .signature { color:var(--ink); }
+.envelope-base { animation:envelope-glow 3s ease-in-out infinite; }
+@keyframes envelope-glow { 50% { box-shadow:0 0 42px color-mix(in oklab,var(--primary) 32%,transparent); } }
 .invitation-copy h1 { min-height:72px; }
 @media(max-width:640px) { .ambient-heart:nth-child(n+55), .ambient-star:nth-child(n+55) { display:none; } .invitation-copy h1 { min-height:57px; } }
