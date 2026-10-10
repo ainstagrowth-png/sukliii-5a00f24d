@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { Heart, Volume2, VolumeX } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -47,9 +47,25 @@ export function SoundButton({enabled,toggle}:{enabled:boolean;toggle:()=>void}) 
   return <Button variant="ghost" size="icon" className="sound-button" onClick={toggle} aria-label={enabled?'Mute music and sounds':'Enable music and sounds'} title={enabled?'Mute music and sounds':'Enable music and sounds'}>{enabled?<Volume2/>:<VolumeX/>}</Button>;
 }
 export function Chapter({number,label}:{number:number;label:string}) {return <div className="chapter">Chapter {String(number).padStart(2,'0')} <span>·</span> {label}</div>;}
+const EMOJI_RUN = /\p{Extended_Pictographic}(?:\uFE0F|\u200D\p{Extended_Pictographic})*/gu;
+function splitRuns(text:string) {
+  const runs:{text:string;emoji:boolean}[] = [];
+  let last = 0;
+  for (const match of text.matchAll(EMOJI_RUN)) {
+    const at = match.index ?? 0;
+    if (at > last) runs.push({ text:text.slice(last,at), emoji:false });
+    runs.push({ text:match[0], emoji:true });
+    last = at + match[0].length;
+  }
+  if (last < text.length) runs.push({ text:text.slice(last), emoji:false });
+  return runs;
+}
 export function TypedGreeting({text}:{text:string}) {
+  const runs = useMemo(()=>splitRuns(text),[text]);
+  const total = useMemo(()=>Array.from(text).length,[text]);
   const [length,setLength]=useState(0);
-  useEffect(()=>{const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;if(reduced){setLength(text.length);return;}let index=0;const timer=setInterval(()=>{index++;setLength(index);if(index>=text.length)clearInterval(timer);},65);return()=>clearInterval(timer);},[text]);
-  return <h1 className="typed-greeting" aria-label={text}><span className="greeting-spacer" aria-hidden="true">{text}</span><span className="greeting-typed" aria-hidden="true">{text.slice(0,length)}<span className="typing-cursor">|</span></span></h1>;
+  useEffect(()=>{const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;if(reduced){setLength(total);return;}let index=0;const timer=setInterval(()=>{index++;setLength(index);if(index>=total)clearInterval(timer);},65);return()=>clearInterval(timer);},[text,total]);
+  const paint = (shown:number) => { let cursor = 0; return runs.map((run,i)=>{ const chars=Array.from(run.text); const take=Math.max(0,Math.min(chars.length,shown-cursor)); cursor+=chars.length; const piece=chars.slice(0,take).join(''); return run.emoji ? <span key={i} className="greeting-emoji">{piece}</span> : <span key={i}>{piece}</span>; }); };
+  return <h1 className="typed-greeting" aria-label={text}><span className="greeting-spacer" aria-hidden="true">{paint(total)}</span><span className="greeting-typed" aria-hidden="true">{paint(length)}<span className="typing-cursor">|</span></span></h1>;
 }
 export function Footer({step}:{step:number}) {return <footer className="love-footer"><div className="progress-dots" aria-label={`Chapter ${step} of 8`}>{Array.from({length:8},(_,i)=><span key={i} className={`progress-dot ${i===step-1?'active':''}`}/>)}</div><div className="footer-copy">A little surprise. A whole lot of love. <Heart/></div></footer>;}
