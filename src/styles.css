@@ -97,7 +97,7 @@ button:focus-visible, [role=button]:focus-visible { outline: 2px solid var(--lig
 .kiss-layer { background:color-mix(in oklab,var(--secondary) 55%,transparent); }
 .kiss-layer .burst-particle { left:var(--x); top:105%; animation:kiss-fly 2.5s var(--delay) both; }
 .flash { position:fixed; inset:0; z-index:35; background:var(--primary); opacity:0; pointer-events:none; animation:flash 650ms both; }
-.big-heart { font-size:140px; line-height:1.4; color:var(--primary); filter:drop-shadow(0 0 28px var(--primary)); animation:heartbeat 2.2s infinite; margin-bottom:8px; }
+.big-heart { font-size:96px; line-height:1.15; color:var(--primary); filter:drop-shadow(0 0 20px var(--primary)); animation:heartbeat 2.2s infinite; margin-bottom:16px; }
 .game-scene h1 { font-size:45px; }
 .game-board { width:100%; max-width:720px; aspect-ratio: 2 / 1; position:relative; margin:24px 0 5px; border-bottom:1px solid var(--border); touch-action:none; }
 .game-board svg { width:100%; height:100%; overflow:visible; }
@@ -114,7 +114,7 @@ button:focus-visible, [role=button]:focus-visible { outline: 2px solid var(--lig
 .arrow-grab { cursor:grab; }
 .arrow-grab:active { cursor:grabbing; }
 .attempt { color:var(--romantic-pink); font-size:10px; letter-spacing:2px; text-transform:uppercase; margin-top:15px; }
-.game-success .big-heart { font-size:110px; }
+.game-success .big-heart { font-size:80px; }
 .game-success h1 { font-size:45px; }
 .kiss-arena { height:180px; width:min(100%,540px); position:relative; margin-top:20px; }
 .kiss-arena .kiss-yes { position:absolute; top:0; left:50%; transform:translateX(-50%); width:230px; }
