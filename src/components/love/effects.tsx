@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 
 type Variables = CSSProperties & Record<`--${string}`, string | number>;
 export function Ambient() {
-  return <div className="ambient" aria-hidden="true">{Array.from({length:100},(_,i)=> <span key={i} className={i%3 === 0 ? 'ambient-star' : 'ambient-heart'} style={{'--x':`${(i*37.71)%100}%`,'--y':`${(i*23.13)%100}%`,'--size':`${i%3===0?3+i%6:7+i%10}px`,'--duration':`${14+i%19}s`,'--delay':`${-i*1.73}s`} as Variables}>{i%3===0 ? '✦' : '♥'}</span>)}</div>;
+  return <div className="ambient" aria-hidden="true">{Array.from({length:100},(_,i)=> <span key={i} className={i%3 === 0 ? 'ambient-star' : 'ambient-heart'} style={{'--x':`${(i*37.71)%100}%`,'--y':`${(i*23.13)%100}%`,'--size':`${i%3===0?3+i%6:4+i%6}px`,'--duration':`${14+i%19}s`,'--delay':`${-i*1.73}s`} as Variables}>{i%3===0 ? '✦' : '♥'}</span>)}</div>;
 }
 export function Burst({ kind='hearts', id }: {kind?:'hearts'|'kisses'; id:number}) {
   return <div key={id} className={`burst-layer ${kind==='kisses'?'kiss-layer':''}`} aria-hidden="true">{kind==='hearts' && <div className="flash"/>}{Array.from({length:kind==='kisses'?48:40},(_,i)=> <span className="burst-particle" key={i} style={{'--x':`${i*37%100}%`,'--dx':`${Math.cos(i*2.4)*(120+i*14)}px`,'--dy':`${Math.sin(i*2.4)*(120+i*14)}px`,'--rotation':`${i*41%360-180}deg`,'--size':`${16+i%5*9}px`,'--delay':`${i%7*.075}s`} as Variables}>{kind==='kisses' ? ['💋','😘','💗','✦'][i%4] : ['♥','✦','♡'][i%3]}</span>)}</div>;
