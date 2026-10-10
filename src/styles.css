@@ -216,6 +216,7 @@ button:focus-visible, [role=button]:focus-visible { outline: 2px solid var(--lig
 @media (min-width:1000px) and (min-height:850px) { .invitation-copy .typed-greeting { font-size:64px; } }
 @media (max-width:640px) { .invitation-copy .typed-greeting { font-size:44px; } }
 @media (max-height:740px) and (max-width:640px) { .invitation-copy .typed-greeting { font-size:38px; } }
+.greeting-emoji { font-size:.7em; }
 .greeting-spacer { visibility:hidden; }
 .greeting-typed { position:absolute; inset:0; }
 .chapter { flex-wrap:nowrap; flex-shrink:0; }
