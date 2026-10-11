@@ -71,7 +71,11 @@ button:focus-visible, [role=button]:focus-visible { outline: 2px solid var(--lig
 .scene h1 { font-family:var(--font-hand); font-size:58px; font-weight:600; line-height:1.14; color:var(--light-pink); margin:8px 0 16px; text-shadow:0 0 30px color-mix(in oklab, var(--primary) 20%, transparent); }
 .scene .copy { color:var(--light-pink); font-size:14px; font-weight:500; line-height:1.9; margin:0; }
 .scene .copy.muted { color:var(--muted-foreground); font-size:12px; margin-top:5px; }
-.invitation-copy { animation:copy-in 1.3s both; }
+.invitation-copy { width:100%; min-width:0; animation:copy-in 1.3s both; }
+.welcome-screen .ambient { clip-path:polygon(0 0, 8% 0, 8% 100%, 92% 100%, 92% 0, 100% 0, 100% 100%, 0 100%); }
+.welcome-screen .side-love { top:20%; }
+.welcome-screen .side-love.right { top:30%; }
+@media (max-width:640px) { .welcome-screen .ambient { clip-path:polygon(0 0, 14px 0, 14px 100%, calc(100% - 14px) 100%, calc(100% - 14px) 0, 100% 0, 100% 100%, 0 100%); } }
 .invitation-copy .copy:nth-of-type(2) { animation:copy-in 1.5s both; }
 .actions { display:flex; align-items:center; justify-content:center; gap:16px; margin-top:30px; min-height:58px; width:100%; }
 .love-button { background:var(--primary); color:var(--foreground); border:1px solid var(--romantic-pink); box-shadow:var(--shadow-love), inset 0 1px 0 color-mix(in oklab,var(--foreground) 20%,transparent); min-height:52px; height:auto; padding:14px 25px; border-radius:8px; font-size:11px; font-weight:700; letter-spacing:1px; white-space:normal; line-height:1.6; transition:transform 250ms, box-shadow 250ms, background 250ms; }
@@ -212,13 +216,10 @@ button:focus-visible, [role=button]:focus-visible { outline: 2px solid var(--lig
 
 .typing-cursor { color:var(--romantic-pink); animation:twinkle 900ms 5 both; font-weight:400; }
 .typed-greeting { position:relative; }
-.invitation-copy .typed-greeting { font-size:56px; }
-@media (min-width:1000px) and (min-height:850px) { .invitation-copy .typed-greeting { font-size:64px; } }
-@media (max-width:640px) { .invitation-copy .typed-greeting { font-size:44px; } }
-@media (max-height:740px) and (max-width:640px) { .invitation-copy .typed-greeting { font-size:38px; } }
-.greeting-emoji { font-size:.7em; }
-.greeting-spacer { visibility:hidden; }
-.greeting-typed { position:absolute; inset:0; }
+.invitation-copy .typed-greeting { display:flex; align-items:center; justify-content:center; white-space:nowrap; font-size:clamp(30px, 8vw, 64px); max-width:100%; }
+.greeting-emoji { font-size:.7em; flex-shrink:0; line-height:1; }
+.greeting-spacer { visibility:hidden; display:flex; align-items:center; justify-content:center; white-space:pre; }
+.greeting-typed { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; white-space:pre; }
 .chapter { flex-wrap:nowrap; flex-shrink:0; }
 .chapter::before,.chapter::after { flex-shrink:0; }
 .letter-paper .signature { color:var(--ink); }
