@@ -139,14 +139,20 @@ button:focus-visible, [role=button]:focus-visible { outline: 2px solid var(--lig
 .cake-scene h1 { font-size:47px; }
 .envelope-button { width:300px; height:235px; background:transparent; border:0; position:relative; padding:0; overflow:visible; margin:35px 0; box-shadow:none; }
 .envelope-button:hover { background:transparent; transform:translateY(-3px); }
+.envelope-button:focus-visible { outline:2px solid var(--light-pink); outline-offset:8px; }
+.envelope-hint { min-height:24px; animation:copy-in 700ms both; }
+.envelope-button.opening + .envelope-hint { color:var(--romantic-pink); }
 .envelope-base { position:absolute; width:100%; height:190px; bottom:0; border:2px solid var(--romantic-pink); border-radius:8px; background:linear-gradient(165deg, color-mix(in oklab, var(--light-pink) 85%, white), color-mix(in oklab, var(--light-pink) 70%, var(--romantic-pink))); box-shadow:0 0 42px color-mix(in oklab, var(--primary) 45%, transparent), var(--shadow-love); }
 .envelope-fold { position:absolute; bottom:0; width:100%; height:190px; background:linear-gradient(165deg, color-mix(in oklab, var(--romantic-pink) 55%, var(--light-pink)), color-mix(in oklab, var(--romantic-pink) 75%, var(--primary))); clip-path:polygon(0 0,50% 55%,100% 0,100% 100%,0 100%); border-radius:8px; box-shadow:inset 0 -2px 6px color-mix(in oklab, var(--primary) 30%, transparent); }
 .envelope-flap { position:absolute; top:45px; width:100%; height:125px; background:linear-gradient(180deg, var(--primary), color-mix(in oklab, var(--primary) 65%, var(--romantic-pink))); border:2px solid var(--light-pink); border-bottom:0; clip-path:polygon(0 0,100% 0,50% 100%); transform-origin:top; transition:transform 650ms; z-index:3; filter:drop-shadow(0 0 14px color-mix(in oklab, var(--primary) 55%, transparent)); }
-.envelope-seal { position:absolute; left:50%; top:130px; transform:translateX(-50%); font-size:39px; color:var(--soft-white, #FFF5FA); z-index:4; filter:drop-shadow(0 0 12px var(--glow)); transition:opacity 300ms,transform 300ms; }
+.envelope-seal { position:absolute; left:50%; top:130px; transform:translateX(-50%); font-size:39px; color:var(--foreground); z-index:4; filter:drop-shadow(0 0 12px var(--glow)); transition:opacity 300ms,transform 300ms; }
+.envelope-button:not(.opening) .envelope-seal { animation:seal-pulse 2s ease-in-out infinite; }
+.envelope-seal::before { content:''; position:absolute; inset:-10px; z-index:-1; border:1px solid color-mix(in oklab,var(--foreground) 75%,transparent); border-radius:50%; animation:seal-ring 1.8s ease-out infinite; }
 .envelope-paper { position:absolute; left:10%; width:80%; height:155px; bottom:12px; background:var(--paper); border:1px solid color-mix(in oklab, var(--romantic-pink) 45%, transparent); border-radius:4px; transition:transform 900ms 350ms; display:flex; justify-content:center; padding:20px; color:var(--ink); font-family:var(--font-hand); font-size:29px; box-shadow:0 -6px 22px color-mix(in oklab, var(--primary) 30%, transparent); }
 .envelope-button.opening .envelope-flap { transform:rotateX(180deg); z-index:0; }
 .envelope-button.opening .envelope-seal { opacity:0; transform:translateX(-50%) scale(1.8); }
 .envelope-button.opening .envelope-paper { transform:translateY(-130px); }
+.envelope-button.opening .envelope-base { animation:envelope-open-glow 1.2s ease-out both; }
 .letter-scene { max-width:760px; padding-top:20px; }
 .letter-paper { width:100%; max-width:590px; background:var(--paper); color:var(--ink); padding:32px 40px; border-radius:8px; position:relative; text-align:left; box-shadow:var(--shadow-love); background-image:repeating-linear-gradient(0deg,transparent,transparent 31px,color-mix(in oklab,var(--romantic-pink) 7%,transparent) 32px); }
 .letter-paper::before { content:'♡'; position:absolute; right:24px; top:16px; color:var(--romantic-pink); font-size:34px; }
@@ -225,5 +231,8 @@ button:focus-visible, [role=button]:focus-visible { outline: 2px solid var(--lig
 .letter-paper .signature { color:var(--ink); }
 .envelope-base { animation:envelope-glow 3s ease-in-out infinite; }
 @keyframes envelope-glow { 50% { box-shadow:0 0 42px color-mix(in oklab,var(--primary) 32%,transparent); } }
+@keyframes seal-pulse { 0%,100% { transform:translateX(-50%) scale(1); } 50% { transform:translateX(-50%) scale(1.08); } }
+@keyframes seal-ring { 0% { transform:scale(.7); opacity:.8; } 100% { transform:scale(1.45); opacity:0; } }
+@keyframes envelope-open-glow { 0% { box-shadow:0 0 42px color-mix(in oklab,var(--primary) 45%,transparent),var(--shadow-love); } 35% { box-shadow:0 0 68px color-mix(in oklab,var(--primary) 72%,transparent),var(--shadow-love); } 100% { box-shadow:0 0 30px color-mix(in oklab,var(--primary) 38%,transparent),var(--shadow-love); } }
 .invitation-copy h1 { min-height:72px; }
 @media(max-width:640px) { .ambient-heart:nth-child(n+55), .ambient-star:nth-child(n+55) { display:none; } .invitation-copy h1 { min-height:57px; } }

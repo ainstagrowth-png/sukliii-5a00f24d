@@ -26,12 +26,12 @@ export function useLoveAudio() {
   const toggle = async () => {
     if(enabled) { setEnabled(false); return; }
     try {
-      if(!context.current) { context.current=new AudioContext(); volume.current=context.current.createGain(); volume.current.gain.value=.25; volume.current.connect(context.current.destination); }
+      if(!context.current) { context.current=new AudioContext(); volume.current=context.current.createGain(); volume.current.gain.value=.32; volume.current.connect(context.current.destination); }
       await context.current.resume(); setEnabled(true);
     } catch { setEnabled(false); }
   };
   useEffect(()=>{
-    if(volume.current) volume.current.gain.value=enabled?.25:0;
+    if(volume.current) volume.current.gain.value=enabled?.32:0;
     if(enabled) {
       let step=0; const notes=[261.63,329.63,392,523.25,440,392,329.63,293.66];
       const play=()=>{ const ctx=context.current; const note=notes[step%notes.length] ?? 261.63; if(ctx) { tone(note,ctx.currentTime,1.7,.1); tone(note/2,ctx.currentTime,2.1,.045); step++; } };
