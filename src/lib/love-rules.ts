@@ -8,6 +8,10 @@ export function intersectsHeart(a: Point, b: Point, center: Point, radius: numbe
 export function invitationSizes(clicks: number) {
   return { yes: 1 + Math.min(clicks, 12) * 0.045, no: Math.max(0.38, 1 - clicks * 0.09) };
 }
+export const DEFAULT_MUSIC_VOLUME = 0.8;
+export function clampMusicVolume(value: number) {
+  return Math.max(0, Math.min(1, value));
+}
 export const countdownValues = [3, 2, 1, 0] as const;
 export const letterParagraphs = [
   'My dear habibi,',
