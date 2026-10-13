@@ -58,8 +58,14 @@ button:focus-visible, [role=button]:focus-visible { outline: 2px solid var(--lig
 .brand small { display:block; margin-top:4px; font-size:9px; text-transform:uppercase; letter-spacing:2px; color:var(--muted-foreground); }
 .header-right { display:flex; align-items:center; gap:20px; }
 .header-note { color:var(--muted-foreground); font-size:10px; letter-spacing:1.8px; text-transform:uppercase; }
+.sound-controls { display:flex; align-items:center; gap:9px; }
 .sound-button { border:1px solid var(--border); border-radius:50%; width:40px; height:40px; padding:0; color:var(--light-pink); background: var(--secondary); }
 .sound-button:hover { border-color:var(--romantic-pink); background:var(--card); }
+.sound-slider { width:88px; min-width:64px; cursor:pointer; }
+.sound-slider [data-radix-slider-track] { background:var(--border); }
+.sound-slider [data-radix-slider-range] { background:var(--romantic-pink); }
+.sound-slider [data-radix-slider-thumb] { border-color:var(--romantic-pink); background:var(--light-pink); }
+.sound-volume-label { min-width:32px; color:var(--light-pink); font-size:10px; font-variant-numeric:tabular-nums; }
 .scene { position:relative; z-index:2; width: min(100%, 940px); margin:0 auto; padding: 20px 24px 38px; min-height:calc(100svh - 174px); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; animation:scene-in 700ms both; }
 .chapter { display:flex; align-items:center; gap:13px; color:var(--romantic-pink); text-transform:uppercase; font-size:9px; font-weight:600; letter-spacing:3px; margin-bottom:22px; }
 .chapter::before, .chapter::after { content:''; height:1px; width:35px; background:var(--border); }
@@ -188,6 +194,10 @@ button:focus-visible, [role=button]:focus-visible { outline: 2px solid var(--lig
   .brand { font-size:11px; gap:9px; }
   .brand small { font-size:8px; letter-spacing:1.5px; }
   .header-note { display:none; }
+  .header-right { gap:8px; }
+  .sound-controls { gap:6px; }
+  .sound-slider { width:68px; min-width:54px; }
+  .sound-volume-label { min-width:29px; font-size:9px; }
   .scene { min-height:calc(100svh - 150px); padding:12px 22px 22px; }
   .chapter { font-size:8px; letter-spacing:2.5px; margin-bottom:18px; }
   .art-wrap { width:235px; height:228px; }
